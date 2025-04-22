@@ -14,6 +14,7 @@ struct SearchMedicationsView: View {
     @State private var searchText = ""
     @FocusState private var isSearchFocused: Bool
     @State private var keyboardHeight: CGFloat = 0
+    @State private var showingMedicationDetailView = false
     
     var body: some View {
         NavigationStack {
@@ -33,8 +34,6 @@ struct SearchMedicationsView: View {
                     .cornerRadius(10)
                     .padding()
                     Spacer()
-                    
-                    
                     switch viewModel.searchState {
                         
                     case .isFirstTime:
@@ -63,7 +62,9 @@ struct SearchMedicationsView: View {
                             .padding(.leading)
                             .listRowBackground(Color.clear)) {
                                 List(viewModel.conceptProperties) { conceptProperty in
-                                    MedicationRow(name: conceptProperty.name ?? "")
+                                    NavigationLink(destination: MedicationDetailView(conceptProperty: conceptProperty)) {
+                                        MedicationRow(name: conceptProperty.name ?? "")
+                                    }
                                 }
                             }
                         
@@ -73,7 +74,6 @@ struct SearchMedicationsView: View {
                         Spacer()
                     }
                 }
-                
                 
                 
                 if isSearchFocused && !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -86,9 +86,9 @@ struct SearchMedicationsView: View {
                     
                 }
             }
+
             .background(Color(UIColor.systemGroupedBackground))
             .onAppear {
-                // Keyboard Show/Hide Listeners
                 NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
                     if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
                         withAnimation {
