@@ -5,70 +5,103 @@
 //  Created by Mazharul on 21/4/25.
 //
 
+
 import SwiftUI
 
 struct SearchMedicationsView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = SearchMedicationsViewModel()
-    @State private var isFirstSearch = true
+    @State private var searchText = ""
+    @FocusState private var isSearchFocused: Bool
+    @State private var keyboardHeight: CGFloat = 0
     
     var body: some View {
         NavigationStack {
-            VStack {
-                Spacer()
-                
-                if viewModel.isLoading {
-                    ProgressView("Searching...")
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .padding(.top, 40)
-                        .transition(.opacity)
-                }
-                
-                else if viewModel.searchQuery.isEmpty {
-                    Text("Search for medications by entering a name.")
-                        .foregroundColor(.gray)
-                        .padding(.top, 20)
-                        .transition(.opacity)
-                    
-                }
-                
-                else if !viewModel.isLoading && viewModel.conceptProperties.isEmpty {
-                    VStack {
-                        
+            ZStack(alignment: .bottom) {
+                VStack(spacing: 0) {
+                    // iOS-style Search Bar
+                    HStack {
                         Image(systemName: "magnifyingglass")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
                             .foregroundColor(.gray)
-                            .padding(.bottom, 8)
-                        
-                        Text("No results found.\nTry a different medication name.")
-                            .font(.body)
-                            .foregroundColor(.gray)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 40)
-                        
+                        TextField("Search", text: $searchText)
+                            .focused($isSearchFocused)
+                            .textFieldStyle(PlainTextFieldStyle())
+                            .submitLabel(.search)
                     }
-                    .transition(.opacity.combined(with: .scale))
-                }
-                
-                
-                if !viewModel.conceptProperties.isEmpty {
-                    List {
+                    .padding(10)
+                    .background(Color(.systemGray5))
+                    .cornerRadius(10)
+                    .padding()
+                    Spacer()
+                    
+                    
+                    switch viewModel.searchState {
+                        
+                    case .isFirstTime:
+                        AlertView(image: "hand.point.up.left.fill",
+                                  title: "Welcome!",
+                                  description: "Start by entering a keyword in the search bar to find medications or concepts.")
+                        Spacer()
+                        
+                    case .empty:
+                        AlertView(image: "magnifyingglass",
+                                  title: "No results found",
+                                  description: "Try searching with a different keyword.")
+                        Spacer()
+                        
+                    case .isLoading:
+                        ProgressView("Searching...")
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .padding(.top, 40)
+                            .transition(.opacity)
+                        
+                    case .loaded:
                         Section(header: Text("Search Results")
-                            .font(.system(size: 16))
+                            .font(.title3)
                             .foregroundColor(.gray)
-                            .textCase(nil)) {
-                                ForEach(viewModel.conceptProperties) { medicine in
-                                    MedicationRow(name: "medicine")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading)
+                            .listRowBackground(Color.clear)) {
+                                List(viewModel.conceptProperties) { conceptProperty in
+                                    MedicationRow(name: conceptProperty.name ?? "")
                                 }
                             }
+                        
+                    case .error(let message):
+                        AlertView(image: "exclamationmark.triangle.fill",
+                                  description: message)
+                        Spacer()
                     }
-                    .listStyle(.insetGrouped)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
                 
-                Spacer()
+                
+                
+                if isSearchFocused && !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    ReusableButton(title: "Search") {
+                        viewModel.searchQuery = searchText
+                        hideKeyboard()
+                        isSearchFocused = false
+                    }
+                    .padding(.bottom, 10);
+                    
+                }
+            }
+            .background(Color(UIColor.systemGroupedBackground))
+            .onAppear {
+                // Keyboard Show/Hide Listeners
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+                    if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                        withAnimation {
+                            keyboardHeight = keyboardFrame.height
+                        }
+                    }
+                }
+                
+                NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+                    withAnimation {
+                        keyboardHeight = 0
+                    }
+                }
             }
             .navigationTitle("Search Medications")
             .navigationBarTitleDisplayMode(.inline)
@@ -84,16 +117,14 @@ struct SearchMedicationsView: View {
                     }
                 }
             }
-            .searchable(text: $viewModel.searchQuery, prompt: "Search Medications")
-            .onChange(of: viewModel.searchQuery) { _ in
-                if isFirstSearch {
-                    isFirstSearch = false
-                }
-            }
         }
     }
+    
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
+                                        to: nil, from: nil, for: nil)
+    }
 }
-
 
 #Preview {
     SearchMedicationsView()

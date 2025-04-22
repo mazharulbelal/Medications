@@ -13,7 +13,6 @@ struct AccountCreationView: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 24) {
-            // Header
             
             VStack(alignment: .center, spacing: 8) {
                 Text("Create New Account")
@@ -40,7 +39,7 @@ struct AccountCreationView: View {
                 
             })
         }
-  
+        
         .padding(.bottom, 40)
     }
 }
