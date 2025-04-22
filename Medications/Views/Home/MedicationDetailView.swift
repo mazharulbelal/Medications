@@ -10,28 +10,35 @@ import SwiftUI
 struct MedicationDetailView: View {
     let conceptProperty: ConceptProperty
     @Environment(\.dismiss) var dismiss
+    @State private var scale: CGFloat = 1.0
+    @State private var opacity: Double = 0.0
     
     var body: some View {
         VStack{
-            // Header
             VStack {
                 Image("pill")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 60, height: 60)
                     .padding()
-                Text("Medicine 1")
+                
+                Text(conceptProperty.psn ?? "Napa One")
                     .font(.title2)
                     .fontWeight(.semibold)
                 
-                Text("Generic Name")
+                Text(conceptProperty.name ?? "Paracetamol")
                     .font(.subheadline)
                     .foregroundColor(.gray)
-                
-                
+            }
+            .scaleEffect(scale)
+            .opacity(opacity)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 1.5)) {
+                    scale = 1.1
+                    opacity = 1.0
+                }
             }
             .padding(.bottom)
-            
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Details")
@@ -79,7 +86,7 @@ struct MedicationDetailView: View {
         .background(Color(.systemGray6))
         .navigationBarTitle("Details", displayMode: .inline)
         .navigationTitle("Search Medications")
-       
+        
     }
 }
 
