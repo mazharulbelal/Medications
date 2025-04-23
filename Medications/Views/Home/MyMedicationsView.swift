@@ -14,8 +14,8 @@ struct MyMedicationsView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                List {
-                    ForEach(viewModel.myMedicationList) { medication in
+                if !viewModel.myMedicationList.isEmpty {
+                    List(viewModel.myMedicationList) { medication in
                         MedicationRow(name: medication.name?.maxTwoWords() ?? "Invalid")
                             .swipeActions(edge: .trailing) {
                                 Button(role: .destructive) {
@@ -24,13 +24,21 @@ struct MyMedicationsView: View {
                                     }
                                 } label: {
                                     Label("Delete", systemImage: "trash")
-                                }
                             }
+                        }
                     }
                 }
                 
-                Spacer()
+                else {
+                    Spacer()
+                    AlertView(
+                        image: "pills.fill",
+                        title: "No Saved Medications",
+                        description: "You haven't added any medications yet. Tap the + button to get started."
+                    )
+                }
                 
+                Spacer()
                 Button(action: {
                     showingAddMedication = true
                     viewModel.searchState = .isFirstTime

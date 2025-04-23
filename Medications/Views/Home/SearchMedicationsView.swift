@@ -62,7 +62,6 @@ struct SearchMedicationsView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.leading)
                             .listRowBackground(Color.clear)) {
-                                
                                 List(viewModel.conceptProperties) { conceptProperty in
                                     NavigationLink(destination: MedicationDetailView(conceptProperty: conceptProperty)) {
                                         MedicationRow(name: conceptProperty.name ?? "")
