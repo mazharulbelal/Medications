@@ -12,7 +12,7 @@ struct MedicationDetailView: View {
     @Environment(\.dismiss) var dismiss
     @State private var scale: CGFloat = 1.0
     @State private var opacity: Double = 0.0
-    @ObservedObject var viewModel: MedicationViewModel
+    @EnvironmentObject var viewModel: MedicationViewModel
     
     var body: some View {
         VStack{
@@ -80,7 +80,7 @@ struct MedicationDetailView: View {
             
             AppThemeButton(title: "Add Medication to List", action: {
                 viewModel.saveToRealm(model: conceptProperty)
-                print("Add Medication to List")
+               
             })
             .padding(.bottom)
             .background(Color.white)

@@ -48,7 +48,7 @@ final class MedicationViewModel: ObservableObject {
                 }
             }, receiveValue: { [weak self] medication in
                 self?.conceptProperties = medication
-                self?.searchState = .loaded
+                self?.searchState = medication.isEmpty ? .empty : .loaded
             })
             .store(in: &cancellables)
     }
@@ -57,7 +57,7 @@ final class MedicationViewModel: ObservableObject {
     func saveToRealm(model: ConceptPropertyDTO) {
         do {
             try medicationRepository.saveMedication(model)
-            print("Medication saved to Realm")
+            loadSavedMedications()
         } catch {
             print("Error saving medication: \(error)")
         }
@@ -65,8 +65,21 @@ final class MedicationViewModel: ObservableObject {
     
     
     func loadSavedMedications() {
-        myMedicationList = medicationRepository.loadSavedMedications()
+        let saved = medicationRepository.loadSavedMedications()
+        DispatchQueue.main.async { [weak self] in
+            self?.myMedicationList = saved
+        }
     }
+
+    
+    func deleteMedication(_ conceptProperty: ConceptPropertyDTO) {
+           do {
+               try medicationRepository.deleteMedication(conceptProperty)
+               loadSavedMedications()
+           } catch {
+               print("Error deleting medication: \(error)")
+           }
+       }
     
 }
 

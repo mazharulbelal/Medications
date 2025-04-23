@@ -10,11 +10,11 @@ import SwiftUI
 
 struct SearchMedicationsView: View {
     @Environment(\.dismiss) var dismiss
-    @StateObject private var viewModel = MedicationViewModel()
     @State private var searchText = ""
     @FocusState private var isSearchFocused: Bool
     @State private var keyboardHeight: CGFloat = 0
     @State private var showingMedicationDetailView = false
+    @EnvironmentObject var viewModel: MedicationViewModel
     
     var body: some View {
         NavigationStack {
@@ -28,7 +28,9 @@ struct SearchMedicationsView: View {
                             .focused($isSearchFocused)
                             .textFieldStyle(PlainTextFieldStyle())
                             .submitLabel(.search)
+                            .autocorrectionDisabled(true)
                     }
+                    
                     .padding(10)
                     .background(Color(.systemGray5))
                     .cornerRadius(10)
@@ -62,7 +64,7 @@ struct SearchMedicationsView: View {
                             .listRowBackground(Color.clear)) {
                                 
                                 List(viewModel.conceptProperties) { conceptProperty in
-                                    NavigationLink(destination: MedicationDetailView(conceptProperty: conceptProperty, viewModel: viewModel)) {
+                                    NavigationLink(destination: MedicationDetailView(conceptProperty: conceptProperty)) {
                                         MedicationRow(name: conceptProperty.name ?? "")
                                     }
                                 }

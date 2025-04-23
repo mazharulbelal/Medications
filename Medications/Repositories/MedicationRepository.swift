@@ -13,6 +13,7 @@ protocol MedicationRepositoryProtocol {
     func fetchMedications(searchText: String) -> AnyPublisher<MedicationDTO, Error>
     func saveMedication(_ medication: ConceptPropertyDTO) throws
     func loadSavedMedications() -> [ConceptPropertyDTO]
+    func deleteMedication(_ conceptProperty: ConceptPropertyDTO) throws
 }
 
 final class MedicationRepository: MedicationRepositoryProtocol {
@@ -28,11 +29,20 @@ final class MedicationRepository: MedicationRepositoryProtocol {
     }
 
     func saveMedication(_ medication: ConceptPropertyDTO) throws {
+        guard let rxcui = medication.rxcui else {return}
+        // Check if the medication already exists
+        if realm.object(ofType: ConceptPropertyEntity.self, forPrimaryKey: rxcui) != nil {
+            print("Medication with rxcui \(rxcui) already exists in Realm.")
+            return
+        }
+
         let entity = ConceptPropertyEntity(from: medication)
         try realm.write {
             realm.add(entity, update: .modified)
         }
+        print("Medication saved successfully.")
     }
+
     
     func loadSavedMedications() -> [ConceptPropertyDTO] {
             let savedMedications = realm.objects(ConceptPropertyEntity.self)
@@ -45,4 +55,19 @@ final class MedicationRepository: MedicationRepositoryProtocol {
             }
         }
     
+    
+    func deleteMedication(_ conceptProperty: ConceptPropertyDTO) throws {
+        guard let rxcui = conceptProperty.rxcui,
+              let entity = realm.objects(ConceptPropertyEntity.self).filter("rxcui == %@", rxcui).first else {
+            print("No valid medication to delete.")
+            return
+        }
+
+        try realm.write {
+            realm.delete(entity)
+        }
+        print("Medication deleted.")
+    }
+
+
 }

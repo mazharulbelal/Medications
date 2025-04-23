@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MyMedicationsView: View {
     @State private var showingAddMedication = false
-    @ObservedObject var viewModel = MedicationViewModel()
+    @EnvironmentObject var viewModel: MedicationViewModel
     
     var body: some View {
         NavigationStack {
@@ -17,15 +17,15 @@ struct MyMedicationsView: View {
                 List {
                     ForEach(viewModel.myMedicationList) { medication in
                         MedicationRow(name: medication.name?.maxTwoWords() ?? "Invalid")
-                        //                            .swipeActions(edge: .trailing) {
-                        //                                Button(role: .destructive) {
-                        //                                    withAnimation {
-                        //                                        medications.removeAll { $0.id == medication.id }
-                        //                                    }
-                        //                                } label: {
-                        //                                    Label("Delete", systemImage: "trash")
-                        //                            }
-                        //                        }
+                            .swipeActions(edge: .trailing) {
+                                Button(role: .destructive) {
+                                    withAnimation {
+                                        viewModel.deleteMedication(medication)
+                                    }
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                            }
                     }
                 }
                 
@@ -33,6 +33,7 @@ struct MyMedicationsView: View {
                 
                 Button(action: {
                     showingAddMedication = true
+                    viewModel.searchState = .isFirstTime
                 }) {
                     HStack {
                         Image(systemName: "plus.circle.fill")

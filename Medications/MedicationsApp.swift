@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct MedicationsApp: App {
+    @StateObject private var medicationViewModel = MedicationViewModel()
     var body: some Scene {
         WindowGroup {
             ContentView()
+            .environmentObject(medicationViewModel)
         }
     }
 }
