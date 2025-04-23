@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct MedicationDetailView: View {
-    let conceptProperty: ConceptProperty
+    let conceptProperty: ConceptPropertyDTO
     @Environment(\.dismiss) var dismiss
     @State private var scale: CGFloat = 1.0
     @State private var opacity: Double = 0.0
+    @ObservedObject var viewModel: MedicationViewModel
     
     var body: some View {
         VStack{
@@ -22,11 +23,11 @@ struct MedicationDetailView: View {
                     .frame(width: 60, height: 60)
                     .padding()
                 
-                Text(conceptProperty.psn ?? "Napa One")
+                Text(conceptProperty.psn?.maxTwoWords() ?? "Napa One")
                     .font(.title2)
                     .fontWeight(.semibold)
                 
-                Text(conceptProperty.name ?? "Paracetamol")
+                Text(conceptProperty.name?.maxTwoWords() ?? "Paracetamol")
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
@@ -77,7 +78,8 @@ struct MedicationDetailView: View {
             .clipShape(RoundedCorner(radius: 10, corners: [.topRight, .topLeft]))
             .padding(.horizontal, 20)
             
-            ReusableButton(title: "Add Medication to List", action: {
+            AppThemeButton(title: "Add Medication to List", action: {
+                viewModel.saveToRealm(model: conceptProperty)
                 print("Add Medication to List")
             })
             .padding(.bottom)
@@ -106,9 +108,4 @@ struct DosageSection: View {
             }
         }
     }
-}
-
-
-#Preview{
-    MedicationDetailView(conceptProperty: ConceptProperty.dummy)
 }

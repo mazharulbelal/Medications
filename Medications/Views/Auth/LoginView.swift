@@ -13,8 +13,6 @@ struct LoginView: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 24) {
-            // Header
-            
             VStack(alignment: .center, spacing: 8) {
                 Text("Login")
                     .font(.title2)
@@ -22,19 +20,14 @@ struct LoginView: View {
                     .foregroundColor(Color.blue)
             }
             .padding(.top, 40)
-            
-            // Form Fields
             VStack(spacing: 16) {
                 InputFieldView(label: "Email", text: $email, keyboardType: .emailAddress)
                 InputFieldView(label: "Create a password", text: $password, isSecure: true)
             }
             .padding(.horizontal, 20)
             .padding(.top, 20)
-            
             Spacer()
-            
-            // Logn Account Button
-            ReusableButton(title: "Login", action: {
+            AppThemeButton(title: "Login", action: {
                 print("Login Your Account")
                 
             })

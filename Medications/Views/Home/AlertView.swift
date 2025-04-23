@@ -20,14 +20,14 @@ struct AlertView: View {
                     .frame(width: 60, height: 60)
                     .foregroundColor(.gray.opacity(0.6))
             }
-
+            
             if let messageTitle = title {
                 Text(messageTitle)
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundColor(.gray)
             }
-
+            
             Text(description)
                 .font(.subheadline)
                 .foregroundColor(.gray.opacity(0.8))

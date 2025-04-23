@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// Helper to use hex colors in SwiftUI
 extension Color {
     init(hex: String) {
         let scanner = Scanner(string: hex)
@@ -25,7 +24,6 @@ extension Color {
 struct RoundedCorner: Shape {
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
-
     func path(in rect: CGRect) -> Path {
         let path = UIBezierPath(
             roundedRect: rect,
@@ -33,5 +31,14 @@ struct RoundedCorner: Shape {
             cornerRadii: CGSize(width: radius, height: radius)
         )
         return Path(path.cgPath)
+    }
+}
+
+
+extension String {
+    func maxTwoWords() -> String {
+        let cleanedString = self.replacingOccurrences(of: "[^a-zA-Z0-9\\s]", with: "", options: .regularExpression)
+        let words = cleanedString.split(separator: " ").prefix(2)
+        return words.joined(separator: " ")
     }
 }

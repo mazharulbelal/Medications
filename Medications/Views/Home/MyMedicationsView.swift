@@ -6,55 +6,56 @@
 //
 //
 import SwiftUI
-//
-//
-//struct MyMedicationsView: View {
-//    @State private var medications = Medication.dummy
-//    @State private var showingAddMedication = false
-//    
-//    var body: some View {
-//        NavigationStack {
-//            VStack {
-//                List {
-//                    ForEach(medications) { medication in
-//                        MedicationRow(name:"Medicine")
-//                            .swipeActions(edge: .trailing) {
-//                                Button(role: .destructive) {
-//                                    withAnimation {
-//                                        medications.removeAll { $0.id == medication.id }
-//                                    }
-//                                } label: {
-//                                    Label("Delete", systemImage: "trash")
-//                            }
-//                        }
-//                    }
-//                }
-//                
-//                Spacer()
-//                
-//                Button(action: {
-//                    showingAddMedication = true
-//                }) {
-//                    HStack {
-//                        Image(systemName: "plus.circle.fill")
-//                            .font(.title2)
-//                        Text("Search Medications")
-//                            .bold()
-//                    }
-//                    .foregroundColor(.blue)
-//                }
-//                .buttonStyle(.plain)
-//                .sheet(isPresented: $showingAddMedication) {
-//                    SearchMedicationsView()
-//                    
-//                }
-//            }
-//            .background(Color(UIColor.systemGroupedBackground))
-//            .navigationTitle("My Medications")
-//        }
-//        
-//    }
-//}
+
+struct MyMedicationsView: View {
+    @State private var showingAddMedication = false
+    @ObservedObject var viewModel = MedicationViewModel()
+    
+    var body: some View {
+        NavigationStack {
+            VStack {
+                List {
+                    ForEach(viewModel.myMedicationList) { medication in
+                        MedicationRow(name: medication.name?.maxTwoWords() ?? "Invalid")
+                        //                            .swipeActions(edge: .trailing) {
+                        //                                Button(role: .destructive) {
+                        //                                    withAnimation {
+                        //                                        medications.removeAll { $0.id == medication.id }
+                        //                                    }
+                        //                                } label: {
+                        //                                    Label("Delete", systemImage: "trash")
+                        //                            }
+                        //                        }
+                    }
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    showingAddMedication = true
+                }) {
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.title2)
+                        Text("Search Medications")
+                            .bold()
+                    }
+                    .foregroundColor(.blue)
+                }
+                .buttonStyle(.plain)
+                .sheet(isPresented: $showingAddMedication) {
+                    SearchMedicationsView()
+                    
+                }
+            }
+            .onAppear {
+                viewModel.loadSavedMedications()
+            }
+            .background(Color(UIColor.systemGroupedBackground))
+            .navigationTitle("My Medications")
+        }
+    }
+}
 
 
 struct MedicationRow: View {
@@ -79,7 +80,6 @@ struct MedicationRow: View {
     }
 }
 
-//
-//#Preview{
-//    MyMedicationsView()
-//}
+#Preview{
+    MyMedicationsView()
+}

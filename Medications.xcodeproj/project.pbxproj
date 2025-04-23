@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		9407DE202DB88EC3003F8C1F /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9407DE1F2DB88EC3003F8C1F /* RealmSwift */; };
+		9407DE212DB88EC3003F8C1F /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9407DE1F2DB88EC3003F8C1F /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		94D0ABBE2DB6442F00986CAF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -22,6 +27,20 @@
 			remoteInfo = Medications;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9407DE222DB88EC3003F8C1F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9407DE212DB88EC3003F8C1F /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		94D0ABAD2DB6442D00986CAF /* Medications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Medications.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9407DE202DB88EC3003F8C1F /* RealmSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,12 +92,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9407DE1E2DB88EC3003F8C1F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		94D0ABA42DB6442D00986CAF = {
 			isa = PBXGroup;
 			children = (
 				94D0ABAF2DB6442D00986CAF /* Medications */,
 				94D0ABC02DB6442F00986CAF /* MedicationsTests */,
 				94D0ABCA2DB6442F00986CAF /* MedicationsUITests */,
+				9407DE1E2DB88EC3003F8C1F /* Frameworks */,
 				94D0ABAE2DB6442D00986CAF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -102,6 +130,7 @@
 				94D0ABA92DB6442D00986CAF /* Sources */,
 				94D0ABAA2DB6442D00986CAF /* Frameworks */,
 				94D0ABAB2DB6442D00986CAF /* Resources */,
+				9407DE222DB88EC3003F8C1F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -112,6 +141,7 @@
 			);
 			name = Medications;
 			packageProductDependencies = (
+				9407DE1F2DB88EC3003F8C1F /* RealmSwift */,
 			);
 			productName = Medications;
 			productReference = 94D0ABAD2DB6442D00986CAF /* Medications.app */;
@@ -196,7 +226,7 @@
 			mainGroup = 94D0ABA42DB6442D00986CAF;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				945563732DB6A29F009A0C77 /* XCRemoteSwiftPackageReference "RealmSwift" */,
+				9407DDBE2DB887F2003F8C1F /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 94D0ABAE2DB6442D00986CAF /* Products */;
@@ -399,7 +429,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Medications/Preview Content\"";
-				DEVELOPMENT_TEAM = 57QD39YJ2V;
+				DEVELOPMENT_TEAM = F8L7D25KA3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -429,7 +459,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Medications/Preview Content\"";
-				DEVELOPMENT_TEAM = 57QD39YJ2V;
+				DEVELOPMENT_TEAM = F8L7D25KA3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -565,15 +595,23 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		945563732DB6A29F009A0C77 /* XCRemoteSwiftPackageReference "RealmSwift" */ = {
+		9407DDBE2DB887F2003F8C1F /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/beMappy/RealmSwift.git";
+			repositoryURL = "https://github.com/realm/realm-swift.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.39.1;
+				branch = master;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9407DE1F2DB88EC3003F8C1F /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9407DDBE2DB887F2003F8C1F /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 94D0ABA52DB6442D00986CAF /* Project object */;
 }

@@ -5,12 +5,12 @@
 //  Created by Mazharul on 21/4/25.
 //
 
-
+//
 import SwiftUI
 
 struct SearchMedicationsView: View {
     @Environment(\.dismiss) var dismiss
-    @StateObject private var viewModel = SearchMedicationsViewModel()
+    @StateObject private var viewModel = MedicationViewModel()
     @State private var searchText = ""
     @FocusState private var isSearchFocused: Bool
     @State private var keyboardHeight: CGFloat = 0
@@ -41,7 +41,6 @@ struct SearchMedicationsView: View {
                                   title: "Welcome!",
                                   description: "Start by entering a keyword in the search bar to find medications or concepts.")
                         Spacer()
-                        
                     case .empty:
                         AlertView(image: "magnifyingglass",
                                   title: "No results found",
@@ -61,11 +60,13 @@ struct SearchMedicationsView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.leading)
                             .listRowBackground(Color.clear)) {
+                                
                                 List(viewModel.conceptProperties) { conceptProperty in
-                                    NavigationLink(destination: MedicationDetailView(conceptProperty: conceptProperty)) {
+                                    NavigationLink(destination: MedicationDetailView(conceptProperty: conceptProperty, viewModel: viewModel)) {
                                         MedicationRow(name: conceptProperty.name ?? "")
                                     }
                                 }
+                                
                             }
                         
                     case .error(let message):
@@ -77,16 +78,17 @@ struct SearchMedicationsView: View {
                 
                 
                 if isSearchFocused && !searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    ReusableButton(title: "Search") {
-                        viewModel.searchQuery = searchText
-                        hideKeyboard()
-                        isSearchFocused = false
+                    AppThemeButton(title: "Search") {
+                        if !searchText.isEmpty {
+                            isSearchFocused = false
+                            viewModel.loadMedication(searchText: searchText)
+                        }
                     }
                     .padding(.bottom, 10);
                     
                 }
             }
-
+            
             .background(Color(UIColor.systemGroupedBackground))
             .onAppear {
                 NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in

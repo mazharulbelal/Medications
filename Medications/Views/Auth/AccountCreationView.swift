@@ -13,7 +13,6 @@ struct AccountCreationView: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 24) {
-            
             VStack(alignment: .center, spacing: 8) {
                 Text("Create New Account")
                     .font(.title2)
@@ -30,11 +29,10 @@ struct AccountCreationView: View {
             }
             .padding(.horizontal, 20)
             .padding(.top, 20)
-            
             Spacer()
             
             // Create Account Button
-            ReusableButton(title: "Create the account", action: {
+            AppThemeButton(title: "Create the account", action: {
                 print("Create the account tapped")
                 
             })
