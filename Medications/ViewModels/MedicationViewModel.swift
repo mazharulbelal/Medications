@@ -9,18 +9,18 @@ import Combine
 import Foundation
 import RealmSwift
 
-enum SearchState {
-    case isFirstTime
-    case isLoading
+enum ApiStatus: Equatable {
+    case idle
+    case loading
     case empty
-    case loaded
+    case success
     case error(String)
 }
 
 final class MedicationViewModel: ObservableObject {
     @Published private(set) var conceptProperties: [ConceptPropertyDTO] = []
     @Published private(set) var myMedicationList: [ConceptPropertyDTO] = []
-    @Published var searchState: SearchState = .isFirstTime
+    @Published var searchState: ApiStatus = .idle
     private let medicationRepository: MedicationRepositoryProtocol
     private var cancellables = Set<AnyCancellable>()
     private let realm = try! Realm()
@@ -30,7 +30,7 @@ final class MedicationViewModel: ObservableObject {
     }
     
     func loadMedication(searchText: String) {
-        searchState = .isLoading
+        searchState = .success
         medicationRepository.fetchMedications(searchText: searchText)
             .map { response in
                 response.drugGroup?.conceptGroup?
@@ -48,7 +48,7 @@ final class MedicationViewModel: ObservableObject {
                 }
             }, receiveValue: { [weak self] medication in
                 self?.conceptProperties = medication
-                self?.searchState = medication.isEmpty ? .empty : .loaded
+                self?.searchState = medication.isEmpty ? .empty : .success
             })
             .store(in: &cancellables)
     }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9407DE202DB88EC3003F8C1F /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9407DE1F2DB88EC3003F8C1F /* RealmSwift */; };
 		9407DE212DB88EC3003F8C1F /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 9407DE1F2DB88EC3003F8C1F /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		94D82BF52DB91CDB00D7A0EB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 94D82BF42DB91CDB00D7A0EB /* FirebaseAuth */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9407DE202DB88EC3003F8C1F /* RealmSwift in Frameworks */,
+				94D82BF52DB91CDB00D7A0EB /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +144,7 @@
 			name = Medications;
 			packageProductDependencies = (
 				9407DE1F2DB88EC3003F8C1F /* RealmSwift */,
+				94D82BF42DB91CDB00D7A0EB /* FirebaseAuth */,
 			);
 			productName = Medications;
 			productReference = 94D0ABAD2DB6442D00986CAF /* Medications.app */;
@@ -227,6 +230,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				9407DDBE2DB887F2003F8C1F /* XCRemoteSwiftPackageReference "realm-swift" */,
+				94D82BF32DB91CDB00D7A0EB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 94D0ABAE2DB6442D00986CAF /* Products */;
@@ -443,7 +447,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.test.Medications;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.medications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -473,7 +477,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.test.Medications;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.medications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -603,6 +607,14 @@
 				kind = branch;
 			};
 		};
+		94D82BF32DB91CDB00D7A0EB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.12.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -610,6 +622,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9407DDBE2DB887F2003F8C1F /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		94D82BF42DB91CDB00D7A0EB /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 94D82BF32DB91CDB00D7A0EB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

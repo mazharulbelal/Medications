@@ -38,7 +38,7 @@ struct SearchMedicationsView: View {
                     Spacer()
                     switch viewModel.searchState {
                         
-                    case .isFirstTime:
+                    case .idle:
                         AlertView(image: "hand.point.up.left.fill",
                                   title: "Welcome!",
                                   description: "Start by entering a keyword in the search bar to find medications or concepts.")
@@ -49,13 +49,13 @@ struct SearchMedicationsView: View {
                                   description: "Try searching with a different keyword.")
                         Spacer()
                         
-                    case .isLoading:
+                    case .loading:
                         ProgressView("Searching...")
                             .progressViewStyle(CircularProgressViewStyle())
                             .padding(.top, 40)
                             .transition(.opacity)
                         
-                    case .loaded:
+                    case .success:
                         Section(header: Text("Search Results")
                             .font(.title3)
                             .foregroundColor(.gray)

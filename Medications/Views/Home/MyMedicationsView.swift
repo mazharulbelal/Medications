@@ -10,6 +10,7 @@ import SwiftUI
 struct MyMedicationsView: View {
     @State private var showingAddMedication = false
     @EnvironmentObject var viewModel: MedicationViewModel
+    @ObservedObject private var authViewModel = AuthViewModel()
     
     var body: some View {
         NavigationStack {
@@ -41,7 +42,7 @@ struct MyMedicationsView: View {
                 Spacer()
                 Button(action: {
                     showingAddMedication = true
-                    viewModel.searchState = .isFirstTime
+                    viewModel.searchState = .idle
                 }) {
                     HStack {
                         Image(systemName: "plus.circle.fill")
@@ -59,6 +60,16 @@ struct MyMedicationsView: View {
             }
             .onAppear {
                 viewModel.loadSavedMedications()
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        authViewModel.signOut()
+                    } label: {
+                        Image(systemName: "rectangle.portrait.and.arrow.right")
+                            .imageScale(.large)
+                    }
+                }
             }
             .background(Color(UIColor.systemGroupedBackground))
             .navigationTitle("My Medications")
@@ -89,6 +100,7 @@ struct MedicationRow: View {
     }
 }
 
-#Preview{
+#Preview {
     MyMedicationsView()
+        .environmentObject(MedicationViewModel())
 }

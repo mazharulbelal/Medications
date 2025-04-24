@@ -6,14 +6,28 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct MedicationsApp: App {
+   
+    init() {
+           FirebaseApp.configure()
+       }
+    
     @StateObject private var medicationViewModel = MedicationViewModel()
+    @StateObject private var authViewModel = AuthViewModel()
+    
     var body: some Scene {
-        WindowGroup {
-            ContentView()
-            .environmentObject(medicationViewModel)
+            WindowGroup {
+                if authViewModel.isLoggedIn {
+                    MyMedicationsView()
+                        .environmentObject(authViewModel)
+                        .environmentObject(medicationViewModel)
+                } else {
+                    HomeView()
+                        .environmentObject(authViewModel)
+                }
+            }
         }
     }
-}
