@@ -9,6 +9,7 @@ import Combine
 import Foundation
 import RealmSwift
 
+// Enum to track the status of an API request
 enum ApiStatus: Equatable {
     case idle
     case loading
@@ -29,6 +30,7 @@ final class MedicationViewModel: ObservableObject {
         self.medicationRepository = repository
     }
     
+    // Fetch Medication from API based on search text.
     func loadMedication(searchText: String) {
         searchState = .loading
         medicationRepository.fetchMedications(searchText: searchText)
@@ -53,7 +55,7 @@ final class MedicationViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    
+    // Store API model in Realm and refresh local data.
     func saveToRealm(model: ConceptPropertyDTO) {
         do {
             try medicationRepository.saveMedication(model)
@@ -63,7 +65,7 @@ final class MedicationViewModel: ObservableObject {
         }
     }
     
-    
+    // Load medications from local Realm storage.
     func loadSavedMedications() {
         let saved = medicationRepository.loadSavedMedications()
         DispatchQueue.main.async { [weak self] in
@@ -71,7 +73,7 @@ final class MedicationViewModel: ObservableObject {
         }
     }
 
-    
+    // Delete medication from local Realm storage.
     func deleteMedication(_ conceptProperty: ConceptPropertyDTO) {
            do {
                try medicationRepository.deleteMedication(conceptProperty)

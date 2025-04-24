@@ -33,14 +33,14 @@ class AuthManager {
         return Future { promise in
             request { result, error in
                 if let error = error {
-                    promise(.failure(error)) // Return error if any
+                    promise(.failure(error))
                 } else if let user = result?.user {
-                    promise(.success(user)) // Return user on success
+                    promise(.success(user))
                 } else {
-                    promise(.failure(NSError(domain: "UnknownError", code: -1, userInfo: nil))) // Handle unknown error
+                    promise(.failure(NSError(domain: "UnknownError", code: -1, userInfo: nil)))
                 }
             }
         }
-        .eraseToAnyPublisher() // Make it a publisher
+        .eraseToAnyPublisher()
     }
 }

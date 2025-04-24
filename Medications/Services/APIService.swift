@@ -12,7 +12,7 @@ import Foundation
 protocol APIServiceProtocol {
     func fetchMedications(searchText: String) -> AnyPublisher<MedicationDTO, Error>
 }
-
+// implementing APIServiceProtocol to fetch medications.
 final class APIService: APIServiceProtocol {
     func fetchMedications(searchText: String)-> AnyPublisher<MedicationDTO, Error> {
         guard let encodedName = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),

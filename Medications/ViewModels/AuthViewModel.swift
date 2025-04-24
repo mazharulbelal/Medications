@@ -15,7 +15,7 @@ class AuthViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let authManager = AuthManager()
     
-  
+    // Sign in with email & password using Firebase.
     func signIn(withEmail email: String, password: String) {
         authStatus = .loading
         authManager.signIn(withEmail: email, password: password)
@@ -30,7 +30,7 @@ class AuthViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
- 
+    // Create user account with email & password using .
     func createAccount(withEmail email: String, password: String) {
         authStatus = .loading
         authManager.createAccount(withEmail: email, password: password)
@@ -44,7 +44,7 @@ class AuthViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
- 
+ // Sign out user and reset auth state.
     func signOut() {
         do {
             try authManager.signOut()
