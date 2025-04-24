@@ -4,7 +4,10 @@ An iOS application built with SwiftUI and MVVM architecture that allows users to
 
 ---
 
-## 📸 Demo Video
+## 📺 Watch the Demo
+
+👉 [Click here to watch the demo video on YouTube](https://www.youtube.com/watch?v=VIDEO_ID)
+
 
 
 [![Demo Video](https://img.youtube.com/vi/Or_hiWFpU78/0.jpg)](https://youtu.be/Or_hiWFpU78)
