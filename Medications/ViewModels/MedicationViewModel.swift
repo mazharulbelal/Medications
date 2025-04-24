@@ -30,7 +30,7 @@ final class MedicationViewModel: ObservableObject {
     }
     
     func loadMedication(searchText: String) {
-        searchState = .success
+        searchState = .loading
         medicationRepository.fetchMedications(searchText: searchText)
             .map { response in
                 response.drugGroup?.conceptGroup?

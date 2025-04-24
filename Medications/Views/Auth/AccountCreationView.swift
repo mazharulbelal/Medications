@@ -7,8 +7,8 @@
 import SwiftUI
 
 struct AccountCreationView: View {
-    @State private var name = "Alice"
-    @State private var email = "example@gmail.com"
+    @State private var name = ""
+    @State private var email = ""
     @State private var password = ""
     @ObservedObject private var viewModel = AuthViewModel()
     
@@ -50,7 +50,7 @@ struct AccountCreationView: View {
             if viewModel.authStatus != .loading {
                 AppThemeButton(title: "Create the account", action: {
                     print("Login Your Account")
-                    viewModel.createAccount(withEmail: "mazharul.belal@gmail.com", password: "Mykey2013")
+                    viewModel.createAccount(withEmail: email, password: password)
                 
                 })
             }
