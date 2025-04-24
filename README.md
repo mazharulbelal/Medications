@@ -31,8 +31,23 @@ An iOS application built with SwiftUI and MVVM architecture that allows users to
 - **iOS Deployment Target**: 16.0+
 - **Frameworks**: SwiftUI, Combine, FirebaseAuth, RealmSwift
 - **Architecture**: MVVM + Repository
+
 ---
-## 🌟 Bonus Features
-- 🌀 Smooth animations with SwiftUI transitions
-- ♿ Initial accessibility support (identifiers & labels)
+## 🚀 Future Improvements
+
+- Polish UI with pixel-perfect layout and smooth animations.  
+- Better memory management: use `[weak self]`, `deinit`, and `lazy` where needed.  
+- Improve Dependency Injection, especially in `AuthViewModel`, for better testability.  
+- Refactor routing:  
+  - One route system for auth (login/signup)  
+  - Another for authenticated user flows  
+- Centralize string constants, image assets, and API routes for better maintainability.  
+- Add unit tests for all ViewModels and services.  
+- Add UI tests to cover login, search, and medication list flows.  
+- Add and configure `.gitignore` properly:  
+  - Exclude sensitive files like `GoogleService-Info.plist` and other environment-specific data.  
+
+
+## 🧑‍💻 Dev Message
+Due to limited time and tight scheduling, I wasn’t able to fully implement everything I initially planned for this project
 
